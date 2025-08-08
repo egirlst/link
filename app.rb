@@ -1,9 +1,9 @@
 require 'sinatra'
 require 'json'
 
-# Configure Sinatra to bind to all interfaces and port 4567
+# Configure Sinatra to bind to all interfaces and port 3099
 set :bind, '0.0.0.0'
-set :port, 4567
+set :port, 3099
 
 PASSWORD = 'ghjk'
 DATA_FILE = 'shortcuts.json'
