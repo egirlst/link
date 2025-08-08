@@ -38,7 +38,4 @@ get '/:name' do
   redirect link
 end
 
-# Start the server if this file is run directly
-if __FILE__ == $0
-  run!
-end
+# Server will start automatically with Puma
