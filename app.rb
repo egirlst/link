@@ -1,6 +1,10 @@
 require 'sinatra'
 require 'json'
 
+# Configure Sinatra to bind to all interfaces and port 4567
+set :bind, '0.0.0.0'
+set :port, 4567
+
 PASSWORD = 'ghjk'
 DATA_FILE = 'shortcuts.json'
 
@@ -23,10 +27,8 @@ post '/create' do
   name = params['name']
   link = params['link']
   halt 400, "Missing name or link" unless name && link
-
   SHORTCUTS[name] = link
   save_shortcuts(SHORTCUTS)
-
   "Shortcut '#{name}' created."
 end
 
@@ -34,4 +36,9 @@ get '/:name' do
   link = SHORTCUTS[params['name']]
   return status 404 unless link
   redirect link
+end
+
+# Start the server if this file is run directly
+if __FILE__ == $0
+  run!
 end
