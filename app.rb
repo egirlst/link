@@ -32,6 +32,11 @@ end
 
 SHORTCUTS = load_shortcuts
 
+# Temporary test route
+get '/' do
+  "URL Shortener is working! Host: #{request.host}"
+end
+
 post '/create' do
   return status 401 unless params['password'] == PASSWORD
   name = params['name']
