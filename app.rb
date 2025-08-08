@@ -4,7 +4,16 @@ require 'json'
 # Configure Sinatra to bind to all interfaces and port 3099
 set :bind, '0.0.0.0'
 set :port, 3099
-set :protection, host_authorization: { permitted_hosts: ['c.saint.bot'] }
+
+# Add debugging middleware to see what host header we're getting
+use Rack::CommonLogger
+before do
+  puts "Host header: #{request.host}"
+  puts "All headers: #{request.env.select { |k,v| k.start_with?('HTTP_') }}"
+end
+
+# Temporarily disable host authorization to debug
+set :protection, except: [:host_authorization]
 
 PASSWORD = 'ghjk'
 DATA_FILE = 'shortcuts.json'
