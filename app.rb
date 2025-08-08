@@ -4,6 +4,7 @@ require 'json'
 # Configure Sinatra to bind to all interfaces and port 3099
 set :bind, '0.0.0.0'
 set :port, 3099
+set :protection, host_authorization: { permitted_hosts: ['c.saint.bot'] }
 
 PASSWORD = 'ghjk'
 DATA_FILE = 'shortcuts.json'
