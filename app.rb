@@ -5,6 +5,9 @@ require 'json'
 #   use Rack::HostAuthorization, []
 # end
 
+# Disable Sinatra's built-in host protection so our middleware runs instead
+set :protection, except: :host_authorization
+
 class HostAuthorization
   def initialize(app, allowed_hosts)
     @app = app
@@ -13,11 +16,7 @@ class HostAuthorization
 
   def call(env)
     request = Rack::Request.new(env)
-
-    # Get host without port
     host_without_port = request.host.to_s
-
-    # Debug output so you see what's happening
     puts "[DEBUG] Incoming Host header: #{host_without_port}"
 
     if @allowed_hosts.any? { |h| h === host_without_port }
@@ -28,7 +27,6 @@ class HostAuthorization
   end
 end
 
-# Allow both production and dev hosts
 use HostAuthorization, ['c.saint.bot', 'localhost', '127.0.0.1']
 
 set :bind, '0.0.0.0'
