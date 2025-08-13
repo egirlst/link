@@ -5,7 +5,23 @@ require 'json'
 #   use Rack::HostAuthorization, []
 # end
 
-use Rack::HostAuthorization, ['c.saint.bot']
+class HostAuthorization
+  def initialize(app, allowed_hosts)
+    @app = app
+    @allowed_hosts = allowed_hosts
+  end
+
+  def call(env)
+    request = Rack::Request.new(env)
+    if @allowed_hosts.any? { |h| h === request.host }
+      @app.call(env)
+    else
+      [403, { "Content-Type" => "text/plain" }, ["Blocked host: #{request.host}"]]
+    end
+  end
+end
+
+use HostAuthorization, ['c.saint.bot']
 
 set :bind, '0.0.0.0'
 set :port, 3099
