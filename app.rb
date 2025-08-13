@@ -13,15 +13,23 @@ class HostAuthorization
 
   def call(env)
     request = Rack::Request.new(env)
-    if @allowed_hosts.any? { |h| h === request.host }
+
+    # Get host without port
+    host_without_port = request.host.to_s
+
+    # Debug output so you see what's happening
+    puts "[DEBUG] Incoming Host header: #{host_without_port}"
+
+    if @allowed_hosts.any? { |h| h === host_without_port }
       @app.call(env)
     else
-      [403, { "Content-Type" => "text/plain" }, ["Blocked host: #{request.host}"]]
+      [403, { "Content-Type" => "text/plain" }, ["Blocked host: #{host_without_port}"]]
     end
   end
 end
 
-use HostAuthorization, ['c.saint.bot']
+# Allow both production and dev hosts
+use HostAuthorization, ['c.saint.bot', 'localhost', '127.0.0.1']
 
 set :bind, '0.0.0.0'
 set :port, 3099
