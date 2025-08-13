@@ -1,9 +1,9 @@
 require 'sinatra'
 require 'json'
 
-if Rack::Request.method_defined?(:host)
-  use Rack::HostAuthorization, []
-end
+# if Rack::Request.method_defined?(:host)
+#   use Rack::HostAuthorization, []
+# end
 
 set :bind, '0.0.0.0'
 set :port, 3099
