@@ -1,9 +1,8 @@
 require 'sinatra'
 require 'json'
 
-# Disable Rack Host Authorization entirely
 if Rack::Request.method_defined?(:host)
-  use Rack::HostAuthorization, []  # Empty list allows all hosts
+  use Rack::HostAuthorization, []
 end
 
 set :bind, '0.0.0.0'
