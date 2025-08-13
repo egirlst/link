@@ -5,6 +5,8 @@ require 'json'
 #   use Rack::HostAuthorization, []
 # end
 
+use Rack::HostAuthorization, ['c.saint.bot']
+
 set :bind, '0.0.0.0'
 set :port, 3099
 
